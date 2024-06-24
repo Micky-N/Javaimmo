@@ -2,7 +2,6 @@ package com.micky.immo.service;
 
 import java.util.List;
 
-import com.micky.immo.key.PropertyAgentKey;
 import com.micky.immo.model.PropertyAgent;
 
 public interface PropertyAgentService {
@@ -12,9 +11,7 @@ public interface PropertyAgentService {
 
     PropertyAgent update(PropertyAgent entity);
 
-    void delete(PropertyAgentKey id);
+    void delete(Long agentId, Long propertyId);
 
-    PropertyAgent findById(PropertyAgentKey id);
-
-    List<PropertyAgent> findByAgentId(Long agentId);
+    PropertyAgent findById(Long agentId, Long propertyId);
 }

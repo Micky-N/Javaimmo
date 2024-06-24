@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.micky.immo.key.PropertyAgentKey;
 import com.micky.immo.model.PropertyAgent;
 import com.micky.immo.service.AgentService;
 import com.micky.immo.service.PropertyAgentService;
+import com.micky.immo.service.PropertyService;
 
 @Controller
 @RequestMapping("/property-agent")
@@ -19,15 +19,22 @@ public class PropertyAgentController {
     @Autowired
     private PropertyAgentService propertyAgentService;
 
-    @GetMapping("/{agentId}/list")
-    public String list(@PathVariable("agentId") Long agentId, Model model, AgentService agentService) {
-        model.addAttribute("propertyAgents", propertyAgentService.findByAgentId(agentId));
-        model.addAttribute("agent", agentService.findById(agentId));
+    @Autowired
+    private AgentService agentService;
+
+    @Autowired
+    private PropertyService propertyService;
+
+    @GetMapping("/list")
+    public String list(Model model) {
+        model.addAttribute("propertyAgents", propertyAgentService.getAll());
         return "propertyAgent/list";
     }
 
     @GetMapping("/add")
-    public String displayAddForm(PropertyAgent propertyAgent) {
+    public String displayAddForm(PropertyAgent propertyAgent, Model model) {
+        model.addAttribute("agents", agentService.getAll());
+        model.addAttribute("properties", propertyService.getAll());
         return "propertyAgent/add";
     }
 
@@ -37,10 +44,13 @@ public class PropertyAgentController {
         return "redirect:/propertyAgent/list";
     }
 
-    @GetMapping("/update/{id}")
-    public String displayUpdateForm(@PathVariable("id") PropertyAgentKey id, Model model) {
-        PropertyAgent propertyAgent = propertyAgentService.findById(id);
+    @GetMapping("/update/{agentId}/{propertyId}")
+    public String displayUpdateForm(@PathVariable("agentId") Long agentId, @PathVariable("propertyId") Long propertyId,
+            Model model) {
+        PropertyAgent propertyAgent = propertyAgentService.findById(agentId, propertyId);
         model.addAttribute("propertyAgent", propertyAgent);
+        model.addAttribute("agents", agentService.getAll());
+        model.addAttribute("properties", propertyService.getAll());
         return "propertyAgent/update";
     }
 
@@ -50,9 +60,9 @@ public class PropertyAgentController {
         return "redirect:/propertyAgent/list";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") PropertyAgentKey id) {
-        propertyAgentService.delete(id);
+    @GetMapping("/delete/{agentId}/{propertyId}")
+    public String delete(@PathVariable("agentId") Long agentId, @PathVariable("propertyId") Long propertyId) {
+        propertyAgentService.delete(agentId, propertyId);
         return "redirect:/propertyAgent/list";
     }
 

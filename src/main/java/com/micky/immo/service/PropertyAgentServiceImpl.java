@@ -3,7 +3,6 @@ package com.micky.immo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.micky.immo.key.PropertyAgentKey;
 import com.micky.immo.model.PropertyAgent;
 import com.micky.immo.repository.PropertyAgentRepository;
 
@@ -31,18 +30,13 @@ public class PropertyAgentServiceImpl implements PropertyAgentService {
     }
 
     @Override
-    public void delete(PropertyAgentKey id) {
-        propertyAgentRepository.deleteById(id);
+    public void delete(Long agentId, Long propertyId) {
+        propertyAgentRepository.deleteByKey(agentId, propertyId);
     }
 
     @Override
-    public PropertyAgent findById(PropertyAgentKey id) {
-        return propertyAgentRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<PropertyAgent> findByAgentId(Long agentId) {
-        return propertyAgentRepository.findByIdAgentId(agentId);
+    public PropertyAgent findById(Long agentId, Long propertyId) {
+        return propertyAgentRepository.findOne(agentId, propertyId).orElse(null);
     }
 }
 

@@ -7,27 +7,32 @@
   <div th:replace="common.html :: #menu"></div>
   <div class="container">
     <div class="row">
-      <h2>La liste des attribution de l'agent <span th:text="${agent.name}"></span></h2>
+      <h2>La liste des assignations</h2>
     </div>
     <div class="row col-md-8">
       <p>
-        <a href="@{/property-agent/{agentId}/all(agentId=${agent.id})}" class="btn btn-primary btn-sm">Nouvel avion</a>
+        <a href="/property-agent/add" class="btn btn-primary btn-sm">Nouvel assignation</a>
       </p>
       <table class="table table-bordered table-sm">
         <thead>
           <tr>
             <th>Id</th>
-            <th>Nom</th>
+            <th>Propriété</th>
+            <th>Agent</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="propertyAgent : ${propertyAgents}">
-            <td style="width: 10%" th:text="${propertyAgent.id}"></td>
-            <td th:text="${propertyAgent.name}"></td>
+            <td style="width: 10%" th:text="${propertyAgent.agentId + propertyAgent.propertyId}"></td>
+            <td th:text="${propertyAgent.property.address}"></td>
+            <td th:text="${propertyAgent.agent.fullname}"></td>
             <td>
-              <a th:href="@{/property-agent/update/{id}(id=${propertyAgent.id})}"><button class="btn btn-info">Modifier</button></a>
-              <a th:href="@{/property-agent/delete/{id}(id=${propertyAgent.id})}"><button
+              <a
+                th:href="@{/property-agent/update/{agentId}/{propertyId}(agentId=${propertyAgent.agentId}, propertyId=${propertyAgent.propertyId})}"><button
+                  class="btn btn-info">Modifier</button></a>
+              <a
+                th:href="@{/property-agent/delete/{agentId}/{propertyId}(agentId=${propertyAgent.agentId}, propertyId=${propertyAgent.propertyId})}"><button
                   class="btn btn-danger">Supprimer</button></a>
             </td>
           </tr>
