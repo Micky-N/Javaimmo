@@ -10,8 +10,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import lombok.Data;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.sql.Date;
 
 @Entity
@@ -22,7 +20,7 @@ public class Property {
     @Id
     @Column(name = "property_id", unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String propertyId;
+    private int propertyId;
 
     @Column(name = "address")
     private String address;
